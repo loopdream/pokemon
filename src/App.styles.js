@@ -61,9 +61,11 @@ export const PokemonItem = styled.li `
 
 export const PokemonImg = styled.img `
   width: 100%;
+  display: block;
 `
 export const PokemonName = styled.h3 `
   color: white;
   font-style: normal;
   text-shadow: 1px 1px 1px #4d4b8c; 
+  margin-bottom: 0;
 `
