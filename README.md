@@ -5,7 +5,8 @@ Use the pokeapi to display some pokemon!
 ```ssh
 git clone git@github.com:loopdream/pokemon.git
 cd pokemon
-yarn start
+npm i
+npm start
 ```
 ![Screenshot](/public/screenshot.png)
 
