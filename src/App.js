@@ -1,26 +1,80 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import logo from './pokemon-logo.svg';
+import {
+  Container,
+  Header,
+  Logo,
+  Main,
+  PokemonList,
+  PokemonItem,
+  PokemonImg,
+  PokemonName,
+} from './App.styles'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const API_URL = 'https://pokeapi.co/api/v2';
+
+export default class componentName extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+       pokemon: [],
+    }
+  }
+  
+  getPokemon = async (offset = 20, limit= 20) => {
+    // get the basic pokemon list (name, url)
+    const result = await fetch(`${API_URL}/pokemon/?offset=${offset}0&limit=${limit}`).then(res => res.json())
+    const { results } = result 
+    // from results create array of promises for each pokemn's details
+    const fetchArray = results.reduce((acc, { url }) => {
+      acc.push(fetch(url).then(res => res.json()))
+      return acc;
+    }, [])
+    // async fetch all, expreact needed properties store in state 
+    const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
+    const pokemon = pokemonDetails.map(({
+      name,
+      base_experience: experience,
+      sprites: {
+        front_default: sprite,
+      },
+    }) => {
+      return {
+        name,
+        experience,
+        sprite,
+      }
+    })
+    
+    this.setState({ pokemon })
+  }
+
+  componentDidMount() {
+    this.getPokemon()
+  }
+
+  capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+
+  render() {
+    return (
+    <Container>
+      <Header>
+        <Logo src={logo} alt="logo" />
+      </Header>
+      <Main>
+        <PokemonList>
+          {
+            this.state.pokemon.map(({ name, sprite }) => (
+              <PokemonItem key={name}>
+                <PokemonImg src={sprite} alt={name} />
+                <PokemonName>{this.capitalize(name)}</PokemonName>
+              </PokemonItem>
+            ))
+          }
+        </PokemonList>
+      </Main>
+    </Container>
+    )
+  }
 }
-
-export default App;
