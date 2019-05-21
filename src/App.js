@@ -31,7 +31,7 @@ export default class componentName extends Component {
       acc.push(fetch(url).then(res => res.json()))
       return acc;
     }, [])
-    // async fetch all, expreact needed properties store in state 
+    // async fetch all, extract and store in state 
     const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
     const pokemon = pokemonDetails.map(({
       name,
