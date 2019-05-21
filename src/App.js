@@ -56,7 +56,7 @@ export default class componentName extends Component {
     this.getPokemon()
   }
 
-  capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
 
   render() {
     return (
