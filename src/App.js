@@ -33,7 +33,6 @@ export default class componentName extends Component {
     }, [])
     // async fetch all, expreact needed properties store in state 
     const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
-    console.log(pokemonDetails)
     const pokemon = pokemonDetails.map(({
       name,
       base_experience: experience,
