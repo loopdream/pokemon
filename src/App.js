@@ -33,17 +33,20 @@ export default class componentName extends Component {
     }, [])
     // async fetch all, expreact needed properties store in state 
     const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
+    console.log(pokemonDetails)
     const pokemon = pokemonDetails.map(({
       name,
       base_experience: experience,
       sprites: {
-        front_default: sprite,
+        front_default: frontImage,
+        back_default: backImage,
       },
     }) => {
       return {
         name,
         experience,
-        sprite,
+        frontImage,
+        backImage,
       }
     })
     
@@ -65,9 +68,12 @@ export default class componentName extends Component {
       <Main>
         <PokemonList>
           {
-            this.state.pokemon.map(({ name, sprite }) => (
+            this.state.pokemon.map(({ name, frontImage, backImage }) => (
               <PokemonItem key={name}>
-                <PokemonImg src={sprite} alt={name} />
+                <div>
+                  <PokemonImg src={frontImage} alt="front avatar" />
+                  <PokemonImg src={backImage} alt="back avatar"/>
+                </div>
                 <PokemonName>{this.capitalize(name)}</PokemonName>
               </PokemonItem>
             ))

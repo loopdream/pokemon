@@ -32,10 +32,26 @@ export const PokemonItem = styled.li `
   align-items: center;
   padding: 10px 20px;
   min-height: 20vh;
+  > div {
+    width: 90px;
+    transition: width .2s ease-in-out;
+    img:first-child {
+      display: none;
+    }
+  }
   &:hover {
     cursor: pointer;
-    img {
+    > div {
       width: 100px;
+      img:first-child {
+        display: block;
+      }
+      img:last-child {
+        display: none;
+      }
+    }
+    img {
+      
     }
     h3 {
       text-shadow: 1px 1px 1px #434354; 
@@ -44,8 +60,7 @@ export const PokemonItem = styled.li `
 `
 
 export const PokemonImg = styled.img `
-  width: 80px;
-   transition: width .2s ease-in-out;
+  width: 100%;
 `
 export const PokemonName = styled.h3 `
   color: white;
