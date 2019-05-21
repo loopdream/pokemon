@@ -2,6 +2,11 @@
 
 Use the pokeapi to display some pokemon!
 
+```ssh
+git clone git@github.com:loopdream/pokemon.git
+cd pokemon
+yarn start
+```
 ![Screenshot](/public/screenshot.png)
 
 
