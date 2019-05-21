@@ -33,8 +33,8 @@ export const PokemonItem = styled.li `
   padding: 10px 20px;
   min-height: 20vh;
   > div {
-    width: 90px;
-    transition: width .2s ease-in-out;
+    /* width: 90px;
+    transition: width .2s ease-in-out; */
     img:first-child {
       display: none;
     }
@@ -42,7 +42,7 @@ export const PokemonItem = styled.li `
   &:hover {
     cursor: pointer;
     > div {
-      width: 100px;
+      /* width: 100px; */
       img:first-child {
         display: block;
       }
