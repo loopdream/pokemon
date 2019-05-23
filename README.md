@@ -2,6 +2,8 @@
 
 Use the pokeapi to display some pokemon!
 
+[Demo](https://loopdream.github.io/pokemon/)
+
 ```ssh
 git clone git@github.com:loopdream/pokemon.git
 cd pokemon
