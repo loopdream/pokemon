@@ -64,8 +64,8 @@ const App = () => {
       <Main>
         <PokemonList>
           {
-            pokemon.map(({ name, frontImage, backImage }) => (
-              <PokemonItem key={name}>
+            pokemon.map(({ name, experience, frontImage, backImage }) => (
+              <PokemonItem key={name} onClick={() => alert(`${capitalize(name)}: Experience ${experience}!`)}>
                 <div>
                   <PokemonImg src={frontImage} alt="front avatar" />
                   <PokemonImg src={backImage} alt="back avatar"/>
