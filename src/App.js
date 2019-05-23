@@ -13,7 +13,7 @@ import {
 
 const API_URL = 'https://pokeapi.co/api/v2';
 
-export default class componentName extends Component {
+export default class App extends Component {
 
   constructor(props) {
     super(props)
