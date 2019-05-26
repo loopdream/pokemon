@@ -12,59 +12,72 @@ import {
 } from './App.styles'
 
 const API_URL = 'https://pokeapi.co/api/v2';
-
+const API_LIMIT = 20
 
 const App = () => {
 
-  const [pokemon, setPokemon] = useState([]);
+  const [data, setData] = useState({});
 
-  useEffect(() => {
-
-    const getPokemon = async (offset = 20, limit= 20) => {
-      // get the basic pokemon list (name, url)
-      const result = await fetch(`${API_URL}/pokemon/?offset=${offset}0&limit=${limit}`).then(res => res.json())
-      const { results } = result 
-      // from results create array of promises for each pokemn's details
-      const fetchArray = results.reduce((acc, { url }) => {
-        acc.push(fetch(url).then(res => res.json()))
-        return acc;
-      }, [])
-      // async fetch all, extract and store in state 
-      const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
-      const pokemon = pokemonDetails.map(({
+  const getPokemon = async (url = `${API_URL}/pokemon`) => {
+    // get the basic pokemon list (name, url)
+    const result = await fetch(url).then(res => res.json())
+    const { count, previous, next, results } = result
+    // from results create array of promises for each pokemn's details
+    const fetchArray = results.reduce((acc, { url }) => {
+      acc.push(fetch(url).then(res => res.json()))
+      return acc;
+    }, [])
+    // async fetch all, extract and store in state 
+    const pokemonDetails = await Promise.all(fetchArray) // should probably catch errors here
+    const pokemon = pokemonDetails.map(({
+      name,
+      base_experience: experience,
+      sprites: {
+        front_default: frontImage,
+        back_default: backImage,
+      },
+    }) => {
+      return {
         name,
-        base_experience: experience,
-        sprites: {
-          front_default: frontImage,
-          back_default: backImage,
-        },
-      }) => {
-        return {
-          name,
-          experience,
-          frontImage,
-          backImage,
-        }
-      })
-      setPokemon(pokemon)
-    }
-
+        experience,
+        frontImage,
+        backImage,
+      }
+    })
+    
+    setData({ count, previous, next, pokemon })
+  }
+  
+  useEffect(() => {
     getPokemon()
+  }, []); 
 
-  })
-
-
+  
   const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
+
 
   return (
     <Container>
       <Header>
         <Logo src={logo} alt="logo" />
+        <nav>
+          {
+            data.previous && <button onClick={() => getPokemon(data.previous)}>previous {API_LIMIT}</button>
+          }
+          {
+            data.next && <button onClick={() => getPokemon(data.next)}>next {API_LIMIT}</button>
+          }
+        </nav>
       </Header>
       <Main>
-        <PokemonList>
+        <PokemonList listOpacity={true}>
           {
-            pokemon.map(({ name, experience, frontImage, backImage }) => (
+            data.pokemon && data.pokemon.map(({
+                  name,
+                  experience,
+                  frontImage,
+                  backImage
+                }) => (
               <PokemonItem key={name} onClick={() => alert(`${capitalize(name)}: Experience ${experience}!`)}>
                 <div>
                   <PokemonImg src={frontImage} alt="front avatar" />

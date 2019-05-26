@@ -24,6 +24,8 @@ export const PokemonList = styled.ul `
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  opacity: ${props => props.listOpacity ? 1 : 0};
+  transition: opacity .2s ease-in-out;
 `
 
 export const PokemonItem = styled.li `
@@ -60,8 +62,9 @@ export const PokemonItem = styled.li `
 `
 
 export const PokemonImg = styled.img `
-  width: 100%;
   display: block;
+  height: 96px;
+  width: 96px;
 `
 export const PokemonName = styled.h3 `
   color: white;
